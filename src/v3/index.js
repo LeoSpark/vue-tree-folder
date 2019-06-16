@@ -30,24 +30,20 @@ Vue.component('virtual-tree-list', {
     },
     data() {
         return {
-            currentIndex: 0,
+            currentStartIndex: 0,
+            currentEndIndex: 0,
             scrollTop: 0,
             wrapperHeight: 0,
             wrapperPaddingTop: 0,
             wrapperPaddingBottom: 400,
-            viewsItemLength: 10
+            viewsItemLength: 10,
+            viewHeight: 400, // 可视区域高度
+            bufferItemLength: 3 // 不在可视区域缓冲数量
         }
     },
     computed: {
-        currentViewList() { // 简单计算
-            const currentIndex = this.currentIndex;
-            const listLength = this.viewsItemLength + 5;
-            const maxStartIndex = this.treeList.length - listLength - 1,
-                maxEndIndex = this.treeList.length - 1;
-            const currentStartIndex = currentIndex > maxStartIndex ? maxStartIndex : currentIndex,
-                currentEndIndex = (currentIndex + listLength - 1) > maxEndIndex ? maxEndIndex : (currentIndex + listLength - 1);
-            
-            return this.treeList.slice(currentStartIndex, currentEndIndex).map(item => String(item).padStart(5, '0'))
+        currentViewList() { 
+            return this.treeList.slice(this.currentStartIndex, this.currentEndIndex + 1).map(item => String(item).padStart(5, '0'));
         },
         paddingStyle() {
             return {
@@ -58,7 +54,7 @@ Vue.component('virtual-tree-list', {
     },
     watch: {
         scrollTop() {
-            this.setCurrentPadding();
+            this.updateListView();
         }
     },
     methods: {
@@ -68,16 +64,36 @@ Vue.component('virtual-tree-list', {
         setWrapperHeight() {
             this.wrapperHeight = this.itemHeight * this.treeList.length;
         },
-        setCurrentPadding() {
-            const itemsHeight = this.currentViewList.length * this.itemHeight;
+        updateListView() {
+            const itemHeight = this.itemHeight;
             const scrollTop = this.scrollTop;
-            this.wrapperPaddingTop = scrollTop;
-            this.wrapperPaddingBottom = this.wrapperHeight - scrollTop - itemsHeight;
+            const treeListLength = this.treeList.length;
+            const wrapperHeight = itemHeight * treeListLength;
+            const restBottom = wrapperHeight - scrollTop - this.viewHeight;
+            const bufferItemLength = this.bufferItemLength; // 缓冲数量
+            const defaultBufferHeight = bufferItemLength * itemHeight;
+            const currentBufferTop = scrollTop > defaultBufferHeight ? defaultBufferHeight : scrollTop;
+            const currentBufferBottom = restBottom > defaultBufferHeight ? defaultBufferHeight : restBottom;
+            const currentItemStartIndex = Math.floor((scrollTop - currentBufferTop) / itemHeight); // 实例中元素开始的索引，向下取整预留空间给 buff 区域
+            const restItemLength = Math.floor((restBottom - currentBufferBottom) / itemHeight);
+            const currentItemEndIndex = treeListLength - restItemLength - 1;
+            const currentFullViewItemLength = currentItemEndIndex - currentItemStartIndex + 1;
+            const currentFullViewHeight = currentFullViewItemLength  * itemHeight;
+
+            const paddingBottom = restItemLength * itemHeight;
+            const paddingTop = wrapperHeight - paddingBottom - currentFullViewHeight;
+
+            // console.table({ currentItemStartIndex, currentItemEndIndex, paddingTop, paddingBottom });
+
+            this.wrapperPaddingTop = paddingTop;
+            this.wrapperPaddingBottom = paddingBottom;
+            this.currentStartIndex = currentItemStartIndex;
+            this.currentEndIndex = currentItemEndIndex;
         }
     },
     created() {
         this.setWrapperHeight();
-        this.setCurrentPadding();
+        this.updateListView();
     }
 });
 
@@ -96,6 +112,7 @@ const app = window.app = new Vue({
         'virtual-tree-list': 'virtual-tree-list'
     },
     created() {
-        this.treeList = Array.from({ length: 1000 }).map((empty, i) => i + 1);
+        // 创建测试数据
+        this.treeList = Array.from({ length: 10000 }).map((empty, i) => i + 1);
     }
 });
