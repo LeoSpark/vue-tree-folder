@@ -24,7 +24,7 @@ const throttle = (fn, delay = 20, mustRunDelay = 30) => {
 Vue.component('virtual-view', {
     template: '#virtual-view-template',
     props: {
-        treeList: { // 列表
+        viewList: { // 列表
             type: Array,
             default: () => []
         },
@@ -53,7 +53,8 @@ Vue.component('virtual-view', {
     },
     computed: {
         currentViewList() { 
-            return this.treeList.slice(this.currentStartIndex, this.currentEndIndex + 1).map(item => String(item).padStart(5, '0'));
+            // return this.viewList.slice(this.currentStartIndex, this.currentEndIndex + 1).map(item => String(item).padStart(5, '0'));
+            return this.viewList.slice(this.currentStartIndex, this.currentEndIndex + 1);
         },
         paddingStyle() {
             return {
@@ -72,14 +73,14 @@ Vue.component('virtual-view', {
             this.scrollTop = this.$el.scrollTop;
         }),
         setWrapperHeight() {
-            this.wrapperHeight = this.itemHeight * this.treeList.length;
+            this.wrapperHeight = this.itemHeight * this.viewList.length;
         },
         // 更新整个视图区
         updateListView() {
             const itemHeight = this.itemHeight; // 单个元素高度
             const scrollTop = this.scrollTop;
-            const treeListLength = this.treeList.length; // 整个列表总长度
-            const wrapperHeight = itemHeight * treeListLength; // 内部模块高度
+            const viewListLength = this.viewList.length; // 整个列表总长度
+            const wrapperHeight = itemHeight * viewListLength; // 内部模块高度
             const restBottom = wrapperHeight - scrollTop - this.viewHeight;
             const bufferItemLength = this.bufferItemLength; // 缓冲数量
             const defaultBufferHeight = bufferItemLength * itemHeight; // 缓冲区高度
@@ -87,7 +88,7 @@ Vue.component('virtual-view', {
             const currentBufferBottom = restBottom > defaultBufferHeight ? defaultBufferHeight : restBottom; // 当前底部缓冲区高度
             const currentItemStartIndex = Math.floor((scrollTop - currentBufferTop) / itemHeight); // 实例中元素开始的索引，向下取整预留空间给 buff 区域
             const restItemLength = Math.floor((restBottom - currentBufferBottom) / itemHeight); // 剩余数量
-            const currentItemEndIndex = treeListLength - restItemLength - 1; // 视图区结束索引
+            const currentItemEndIndex = viewListLength - restItemLength - 1; // 视图区结束索引
             const currentFullViewItemLength = currentItemEndIndex - currentItemStartIndex + 1; // 整个视图区的元素数量
             const currentFullViewHeight = currentFullViewItemLength  * itemHeight; // 整个视图区高度
 

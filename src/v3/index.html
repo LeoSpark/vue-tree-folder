@@ -83,34 +83,57 @@
 
 <body>
     <div id="app"></div>
-
-    
-    <script type="text/x-template" id="tree-list-template">
-        <div class="tree-list-container"></div>
-    </script>
-
     
     <script type="text/x-template" id="tree-item-template">
-        <span class="tree-item"> {{text}} </span>
+        <div :style="indentClass">
+            <span 
+                class="folder-arrow"
+                :class="{'floding': !itemData.expand}"
+                v-if="itemData.children.length > 0"
+                @click="itemData.expand = !itemData.expand"
+            ></span>
+            
+            <span
+                class="checkbox"
+                :class="checkStatus"
+                @click="toggleCheck"
+            ></span>
+            <span
+                class="item-text"
+                @click="toggleSelect"
+                :class="{'item-select': itemData.selected}"
+            >{{ itemData.value }}</span>
+        </div>
     </script>
 
     <script type="text/x-template" id="virtual-view-template">
         <div class="virtual-tree-container" 
             @scroll.passive="updateScrollTop"
         >
-            <ul :style="paddingStyle">
-                <li 
-                    v-for="(item, index) in currentViewList" 
+            <div :style="paddingStyle">
+                <tree-item 
+                    v-for="(itemData, index) in currentViewList"
                     :key="index"
-                    class="virtual-tree-item"
                     :style="{height: itemHeight + 'px'}"
-                >- <tree-item :text="item"></tree-item> -</li>
-            </ul>
+                    :itemData="{ parentPath: '', index, expand: true,  ...itemData}"
+                ></tree-item>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-template" id="tree-list-template">
+        <div class="tree-list-container">
+            <virtual-view 
+                :itemHeight="60"
+                :viewList="flatTree"
+                :viewHeight="400"
+            ></virtual-view>
         </div>
     </script>
 
 
     <script src="./vue.js"></script>
+    <script src="./tree-list.js"></script>
     <script src="./tree-item.js"></script>
     <script src="./virtual-view.js"></script>
     <script src="./index.js"></script>
