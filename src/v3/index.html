@@ -84,7 +84,17 @@
 <body>
     <div id="app"></div>
 
-    <script type="text/x-template" id="virtual-tree-list-template">
+    
+    <script type="text/x-template" id="tree-list-template">
+        <div class="tree-list-container"></div>
+    </script>
+
+    
+    <script type="text/x-template" id="tree-item-template">
+        <span class="tree-item"> {{text}} </span>
+    </script>
+
+    <script type="text/x-template" id="virtual-view-template">
         <div class="virtual-tree-container" 
             @scroll.passive="updateScrollTop"
         >
@@ -94,12 +104,15 @@
                     :key="index"
                     class="virtual-tree-item"
                     :style="{height: itemHeight + 'px'}"
-                >- {{item}} -</li>
+                >- <tree-item :text="item"></tree-item> -</li>
             </ul>
         </div>
     </script>
 
+
     <script src="./vue.js"></script>
+    <script src="./tree-item.js"></script>
+    <script src="./virtual-view.js"></script>
     <script src="./index.js"></script>
 </body>
 
