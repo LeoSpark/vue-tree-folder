@@ -13,9 +13,9 @@ Vue.component('tree-item', {
                 expand: false
             })
         },
-        intendWidth: {
+        intendWidth: { // 每个等级缩进宽度
             type: Number,
-            default: 40 // 每个等级缩进宽度
+            default: 40
         }
     },
     computed: {
@@ -48,7 +48,7 @@ Vue.component('tree-item', {
             this.changeCheckStatus(this.myNodePath, newStatus);
         },
         toggleSelect() {
-            this.changeSelected(this.myNodePath, !this.selected);
+            this.changeSelected(this.myNodePath, !this.itemData.selected);
         }
     }
 });

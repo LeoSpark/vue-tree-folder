@@ -40,7 +40,7 @@ Vue.component('tree-list', {
     },
     methods: {
         getNodeByPath(path) {
-            const list = this.list;
+            const list = this.treeList;
             const pathList = path.split('-');
             let curNode = null;
             let recordList = []; // 堆栈记录
@@ -155,7 +155,7 @@ Vue.component('tree-list', {
                 let [ curNode ] = this.getNodeByPath(parentPath);
                 curNode.children.push(EMPTY_NODE);
             } else {
-                this.list.push(EMPTY_NODE);
+                this.treeList.push(EMPTY_NODE);
             }
         },
         changeNodeValue(path, value) {
@@ -167,7 +167,7 @@ Vue.component('tree-list', {
             let pathList = path.split('-');
 
             if(pathList.length === 1) { // 根元素
-                this.list.splice(path, 1);
+                this.treeList.splice(path, 1);
             } else {
                 const childIndex = pathList.reverse()[0]; // 元素数组索引
                 let [ childNode, parentNode ] = this.getNodeByPath(path);

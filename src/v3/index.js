@@ -122,6 +122,7 @@ const app = window.app = new Vue({
                 item.expand = true;
                 item.value = item.name;
                 item.parentPath = parentPath;
+                item.index = index;
 
                 if(item.children && item.children.length) {
                     const nodePath = parentPath ? `${parentPath}-${index}` : String(index);

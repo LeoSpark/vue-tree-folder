@@ -115,7 +115,7 @@
                     v-for="(itemData, index) in currentViewList"
                     :key="index"
                     :style="{height: itemHeight + 'px'}"
-                    :itemData="{ parentPath: '', index, expand: true,  ...itemData}"
+                    :itemData="itemData"
                 ></tree-item>
             </div>
         </div>
