@@ -17,7 +17,7 @@ const app = window.app = new Vue({
             return list.map((item, index) => {
                 item.checked = 0;
                 item.selected = false;
-                item.expand = true;
+                item.expand = false;
                 item.value = item.name;
                 item.parentPath = parentPath;
                 item.index = index;
@@ -25,6 +25,7 @@ const app = window.app = new Vue({
                 if(item.children && item.children.length) {
                     const nodePath = parentPath ? `${parentPath}-${index}` : String(index);
                     format(item.children, nodePath);
+                    item.expand = true;
                 } else {
                     item.children = [];
                 }
@@ -33,7 +34,7 @@ const app = window.app = new Vue({
             });
         }
 
-        this.treeList = format(window.treeList);
+        // this.treeList = format(window.treeList);
         this.treeList = format(window.areas);
     }
 });

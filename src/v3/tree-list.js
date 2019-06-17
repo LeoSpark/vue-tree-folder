@@ -27,11 +27,14 @@ Vue.component('tree-list', {
             const flat = (list) => {
                 return list.reduce((total, item) => {
                     // 有子元素并且是展开
-                    if(item.expand && item.children.length) {
-                        return total.concat([item, ...flat(item.children)]);
+                    if(!item.expand || item.children.length <= 0) {
+                        total.push(item);
+                        return total;
+                    } else if(item.children.length) {
+                        // @see https://dev.to/uilicious/javascript-array-push-is-945x-faster-than-array-concat-1oki
+                        total.push(item);
+                        return total.concat(flat(item.children));
                     }
-
-                    return total.concat(item);
                 }, [])
             }
 
