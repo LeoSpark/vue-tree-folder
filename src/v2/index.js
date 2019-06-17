@@ -169,9 +169,6 @@ Vue.component('tree-folder-list', {
                 this.selectedPath.splice(0, 1); // 删除
             }
         }
-    },
-    component: {
-        'tree-item': 'tree-item'
     }
 });
 
@@ -224,9 +221,6 @@ Vue.component('tree-item', {
         toggleSelect() {
             this.changeSelected(this.myNodePath, !this.selected);
         }
-    },
-    component: {
-        'empty-item': 'empty-item'
     }
 });
 
@@ -374,9 +368,6 @@ const app = window.app = new Vue({
                 children: []
             }
         ]
-    },
-    component: {
-        'tree-folder-list': 'tree-folder-list'
     },
     created() {
         console.log(window.areas);
