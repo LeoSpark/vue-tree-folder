@@ -12,13 +12,17 @@ Vue.component('tree-item', {
                 children: [],
                 expand: false
             })
+        },
+        intendWidth: {
+            type: Number,
+            default: 40 // 每个等级缩进宽度
         }
     },
     computed: {
         // 缩进
         indentClass() {
             const pathLength = this.itemData.parentPath.split('-').filter(item => item).length;
-            return { 'margin-left': (pathLength * 40) + 'px' };
+            return { 'margin-left': (pathLength * this.intendWidth) + 'px' };
         },
         checkStatus() {
             const statusMap = { 0: 'no', 1: 'partial', 2: 'checked' };
