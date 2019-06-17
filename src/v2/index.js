@@ -285,7 +285,7 @@ const app = window.app = new Vue({
             });
       
           };
-        console.log(this.treeList = format(window.treeList));
-        // console.log(this.treeList = format(window.areas));
+        // console.log(this.treeList = format(window.treeList));
+        console.log(this.treeList = format(window.areas));
     }
 });
