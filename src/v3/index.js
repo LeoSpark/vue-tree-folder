@@ -119,6 +119,7 @@ const app = window.app = new Vue({
         const format = (list, parentPath = '') => {
             return list.map((item, index) => {
                 item.checked = 0;
+                item.selected = false;
                 item.expand = true;
                 item.value = item.name;
                 item.parentPath = parentPath;
@@ -135,6 +136,6 @@ const app = window.app = new Vue({
             });
         }
 
-        this.treeList = format(treeList);
+        this.treeList = format(areas);
     }
 });

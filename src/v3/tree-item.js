@@ -21,7 +21,12 @@ Vue.component('tree-item', {
     computed: {
         // 缩进
         indentClass() {
-            const pathLength = this.itemData.parentPath.split('-').filter(item => item).length;
+            let pathLength = 0;
+
+            if(this.itemData.parentPath) {
+                pathLength = this.itemData.parentPath.split('-').length;
+            }
+            
             return { 'margin-left': (pathLength * this.intendWidth) + 'px' };
         },
         checkStatus() {
