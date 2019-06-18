@@ -26,7 +26,7 @@ Vue.component('tree-list', {
         flatTree() {
             const flat = (list) => {
                 return list.reduce((total, item) => {
-                    // 有子元素并且是展开
+                    // 没有展开或者没有子元素
                     if(!item.expand || item.children.length <= 0) {
                         total.push(item);
                         return total;
@@ -46,7 +46,7 @@ Vue.component('tree-list', {
             const list = this.treeList;
             const pathList = path.split('-');
             let curNode = null;
-            let recordList = []; // 堆栈记录
+            let recordList = []; // 栈记录
 
             if (typeof path !== 'string') {
                 return null;

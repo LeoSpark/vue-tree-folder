@@ -25,7 +25,7 @@ Vue.component('tree-folder-list', {
             const list = this.list;
             const pathList = path.split('-');
             let curNode = null;
-            let recordList = []; // 堆栈记录
+            let recordList = []; // 栈记录
 
             if (typeof path !== 'string') {
                 return null;
