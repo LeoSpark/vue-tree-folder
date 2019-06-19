@@ -18,9 +18,13 @@ Vue.component('tree-list', {
             getSelectedPath: () => this.selectedPath,
             changeSelected: this.changeSelected,
             changeCheckStatus: this.changeCheckStatus,
+            changeExpand: this.updateFlatTree,
             changeNodeValue: this.changeNodeValue,
             removeNode: this.removeNode
         };
+    },
+    created() {
+        this.updateFlatTree();
     },
     methods: {
         getNodeByPath(path) {
@@ -145,7 +149,7 @@ Vue.component('tree-list', {
         changeNodeValue(path, value) {
             let [ curNode ] = this.getNodeByPath(path);
 
-            Vue.set(curNode, 'name', value);
+            Vue.set(curNode, 'name', value); // @todo 修改 key
         },
         removeNode(path) {
             let pathList = path.split('-');
@@ -172,7 +176,7 @@ Vue.component('tree-list', {
             }
         },
         // 扁平化树列表
-        updateFlatTree(path) {
+        updateFlatTree(path, isExpand) {
             const flat = (list) => {
                 let total = [];
 
@@ -191,20 +195,27 @@ Vue.component('tree-list', {
                 return total;
             }
 
-            if(!path) { // 没有指定路径，则全量更新
+            if(!path || typeof isExpand === 'undefined') { // 没有指定路径，则全量更新
                 return this.flatTree = flat(this.treeList);
             }
 
             const list = this.flatTree;
             const [ curNode ] = this.getNodeByPath(path);
             const flatChildList = flat(curNode.children);
-            const isExpand = curNode.expand;
-            const startIndex = list.findIndex(curNode);
+            // const isExpand = curNode.expand;
+            const startIndex = list.indexOf(curNode);
+
+            if(curNode.expand === isExpand) { // 没有改变
+                return;
+            }
+
+            curNode.expand = isExpand;
 
             if(isExpand) {
+                // 添加
                 list.splice(startIndex + 1, flatChildList.length, ...flatChildList);
             } else {
-                list.splice(startIndex + 1, flatChildList.length);
+                list.splice(startIndex + 1, flatChildList.length); // 删除
             }
 
         }

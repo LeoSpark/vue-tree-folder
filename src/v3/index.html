@@ -90,7 +90,7 @@
                 class="folder-arrow"
                 :class="{'floding': !itemData.expand}"
                 v-if="itemData.children.length > 0"
-                @click="itemData.expand = !itemData.expand"
+                @click="toggleExpand"
             ></span>
             
             <span
@@ -133,7 +133,7 @@
 
 
     <script src="../lib/vue.js"></script>
-    <script src="../mock/pcas-code.js"></script>
+    <script src="../mock/simple-tree.js"></script>
     <script src="./tree-list.js"></script>
     <script src="./tree-item.js"></script>
     <script src="./virtual-view.js"></script>

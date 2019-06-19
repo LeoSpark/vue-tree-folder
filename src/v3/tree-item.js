@@ -43,6 +43,7 @@ Vue.component('tree-item', {
         }
     },
     inject: [
+        'changeExpand',
         'changeSelected',
         'getSelectedPath', 
         'changeCheckStatus'
@@ -54,6 +55,9 @@ Vue.component('tree-item', {
         },
         toggleSelect() {
             this.changeSelected(this.myNodePath, !this.itemData.selected);
+        },
+        toggleExpand() {
+            this.changeExpand(this.myNodePath, !this.itemData.expand);
         }
     }
 });
