@@ -9,7 +9,8 @@ Vue.component('tree-list', {
     },
     data() {
         return {
-            selectedPath: [] // 选中的节点
+            selectedPath: [], // 选中的节点
+            flatTree: []
         };
     },
     provide() {
@@ -20,26 +21,6 @@ Vue.component('tree-list', {
             changeNodeValue: this.changeNodeValue,
             removeNode: this.removeNode
         };
-    },
-    computed: {
-        // 扁平化树列表
-        flatTree() {
-            const flat = (list) => {
-                return list.reduce((total, item) => {
-                    // 没有展开或者没有子元素
-                    if(!item.expand || item.children.length <= 0) {
-                        total.push(item);
-                        return total;
-                    } else if(item.children.length) {
-                        // @see https://dev.to/uilicious/javascript-array-push-is-945x-faster-than-array-concat-1oki
-                        total.push(item);
-                        return total.concat(flat(item.children));
-                    }
-                }, [])
-            }
-
-            return flat(this.treeList);
-        }
     },
     methods: {
         getNodeByPath(path) {
@@ -189,6 +170,43 @@ Vue.component('tree-list', {
                 this.removeNode(curPath);
                 this.selectedPath.splice(0, 1); // 删除
             }
+        },
+        // 扁平化树列表
+        updateFlatTree(path) {
+            const flat = (list) => {
+                let total = [];
+
+                for(let i=0, length = list.length; i < length; i++) {
+                    const item = list[i];
+
+                    if(!item.expand || item.children.length <= 0) {
+                        total.push(item);
+                    } else {
+                        total.push(item);
+                        total.push(...flat(item.children));
+                    }
+
+                }
+
+                return total;
+            }
+
+            if(!path) { // 没有指定路径，则全量更新
+                return this.flatTree = flat(this.treeList);
+            }
+
+            const list = this.flatTree;
+            const [ curNode ] = this.getNodeByPath(path);
+            const flatChildList = flat(curNode.children);
+            const isExpand = curNode.expand;
+            const startIndex = list.findIndex(curNode);
+
+            if(isExpand) {
+                list.splice(startIndex + 1, flatChildList.length, ...flatChildList);
+            } else {
+                list.splice(startIndex + 1, flatChildList.length);
+            }
+
         }
     }
 });
