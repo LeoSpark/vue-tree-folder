@@ -202,7 +202,6 @@ Vue.component('tree-list', {
             const list = this.flatTree;
             const [ curNode ] = this.getNodeByPath(path);
             const flatChildList = flat(curNode.children);
-            // const isExpand = curNode.expand;
             const startIndex = list.indexOf(curNode);
 
             if(curNode.expand === isExpand) { // 没有改变
@@ -212,12 +211,10 @@ Vue.component('tree-list', {
             curNode.expand = isExpand;
 
             if(isExpand) {
-                // 添加
-                list.splice(startIndex + 1, flatChildList.length, ...flatChildList);
+                list.splice(startIndex + 1, 0, ...flatChildList); // 添加
             } else {
                 list.splice(startIndex + 1, flatChildList.length); // 删除
             }
-
         }
     }
 });
