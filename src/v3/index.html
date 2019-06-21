@@ -116,6 +116,7 @@
                     :key="index"
                     :style="{height: itemHeight + 'px'}"
                     :itemData="itemData"
+                    @toggleExpand="getCurrentViewList"
                 ></tree-item>
             </div>
         </div>
@@ -133,6 +134,7 @@
 
 
     <script src="../lib/vue.js"></script>
+    <script src="../mock/simple-tree.js"></script>
     <script src="../mock/pcas-code.js"></script>
     <script src="./tree-list.js"></script>
     <script src="./tree-item.js"></script>

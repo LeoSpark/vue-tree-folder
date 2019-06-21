@@ -46,16 +46,13 @@ Vue.component('virtual-view', {
             scrollTop: 0,
             currentStartIndex: 0,
             currentEndIndex: 0,
+            currentViewList: [],
             wrapperHeight: 0,
             wrapperPaddingTop: 0,
             wrapperPaddingBottom: 0
         }
     },
     computed: {
-        currentViewList() { 
-            // return this.viewList.slice(this.currentStartIndex, this.currentEndIndex + 1).map(item => String(item).padStart(5, '0'));
-            return this.viewList.slice(this.currentStartIndex, this.currentEndIndex + 1);
-        },
         paddingStyle() {
             return {
                 paddingTop: this.wrapperPaddingTop + 'px',
@@ -66,6 +63,7 @@ Vue.component('virtual-view', {
     watch: {
         scrollTop() {
             this.updateListView();
+            this.getCurrentViewList();
         }
     },
     methods: {
@@ -101,11 +99,20 @@ Vue.component('virtual-view', {
             this.wrapperPaddingBottom = paddingBottom;
             this.currentStartIndex = currentItemStartIndex;
             this.currentEndIndex = currentItemEndIndex;
+        },
+        getCurrentViewList() {
+            this.currentViewList = this.viewList.slice(this.currentStartIndex, this.currentEndIndex + 1);
         }
     },
     created() {
         this.setWrapperHeight();
         this.updateListView();
+        this.getCurrentViewList();
+
+        // 通过监听子组件事件方式触法更新，watch 整个 list 性能更新会好很多
+        this.$on('toggleExpand', () => {
+            this.getCurrentViewList();
+        });
     },
     component: {
         'tree-item': 'tree-item'

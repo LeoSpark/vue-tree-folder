@@ -1042,8 +1042,8 @@
           dep.depend();
           if (childOb) {
             childOb.dep.depend();
-            if (Array.isArray(value)) {
-              dependArray(value);
+            if (Array.isArray(value)) {// console.time('dep-arr'); // 追踪数组性能
+              dependArray(value); // console.timeEnd('dep-arr');
             }
           }
         }

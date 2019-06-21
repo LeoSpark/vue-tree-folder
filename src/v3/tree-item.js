@@ -58,6 +58,7 @@ Vue.component('tree-item', {
         },
         toggleExpand() {
             this.changeExpand(this.myNodePath, !this.itemData.expand);
+            this.$emit('toggleExpand'); // 向父组件触发更新事件
         }
     }
 });
