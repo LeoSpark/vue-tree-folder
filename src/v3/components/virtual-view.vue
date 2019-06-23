@@ -66,7 +66,6 @@ export default  {
             currentStartIndex: 0,
             currentEndIndex: 0,
             currentViewList: [],
-            wrapperHeight: 0,
             wrapperPaddingTop: 0,
             wrapperPaddingBottom: 0
         }
@@ -82,16 +81,12 @@ export default  {
     watch: {
         scrollTop() {
             this.updateListView();
-            this.getCurrentViewList();
         }
     },
     methods: {
         updateScrollTop: throttle(function() {
             this.scrollTop = this.$el.scrollTop;
         }),
-        setWrapperHeight() {
-            this.wrapperHeight = this.itemHeight * this.viewList.length;
-        },
         // 更新整个视图区
         updateListView() {
             const itemHeight = this.itemHeight; // 单个元素高度
@@ -118,20 +113,11 @@ export default  {
             this.wrapperPaddingBottom = paddingBottom;
             this.currentStartIndex = currentItemStartIndex;
             this.currentEndIndex = currentItemEndIndex;
-        },
-        getCurrentViewList() {
-            this.currentViewList = this.viewList.slice(this.currentStartIndex, this.currentEndIndex + 1);
+            this.currentViewList = this.viewList.slice(currentItemStartIndex, currentItemEndIndex + 1);
         }
     },
     created() {
-        this.setWrapperHeight();
         this.updateListView();
-        this.getCurrentViewList();
-
-        // 通过监听子组件事件方式触法更新，watch 整个 list 性能更新会好很多
-        this.$on('toggleExpand', () => {
-            this.getCurrentViewList();
-        });
     },
     components: {
         TreeItem
