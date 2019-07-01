@@ -3,6 +3,11 @@ ul, ol, li {
     list-style-type: none;
 }
 
+.tree-list-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
 .virtual-tree-container {
     height: 600px;
     box-sizing: border-box;
