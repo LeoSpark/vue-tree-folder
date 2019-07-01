@@ -1,0 +1,72 @@
+ul, ol, li {
+    padding: 0;
+    list-style-type: none;
+}
+
+.virtual-tree-container {
+    height: 600px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    border-radius: 4px;
+    box-shadow: 0 0 0 4px #f6dc8e;
+}
+
+.virtual-tree-container .virtual-tree-item {
+    /* height: 60px; */
+    margin: 4px;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #f7ee99;
+    line-height: 60px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.folder-arrow {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: 4px 0;
+    cursor: pointer;
+    background-image: url(../img/arrow.svg);
+    background-size: cover;
+    background-position: center;
+    user-select: none;
+    transform: rotate(90deg);
+}
+
+.folder-arrow.floding {
+    margin: 0;
+    transform: rotate(0deg);
+}
+
+.checkbox {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    background-image: url(../img/check-box-outline-blank.svg);
+    background-size: cover;
+    background-position: center;
+    user-select: none;
+}
+
+.checkbox.checked {
+    background-image: url(../img/check-box-checked.svg);
+}
+
+.checkbox.partial {
+    background-image: url(../img/checkbox-partial.svg);
+}
+
+.item-text {
+    display: inline-block;
+    cursor: pointer;
+    /* transform: translate3d(0, 0, 0); */
+}
+
+.hight-line,
+.item-select {
+    outline: 2px solid #2196F3;
+    /* box-shadow: 0 0 0 3px #2196F3; */
+}

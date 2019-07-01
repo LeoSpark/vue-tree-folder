@@ -1,4 +1,4 @@
-window.treeList = [
+export default [
     {
         name: '食物',
         checked: 1,

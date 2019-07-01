@@ -1,5 +1,5 @@
 //来源：https://github.com/modood/Administrative-divisions-of-China/blob/master/dist/pca-code.json
-window.areas = [{
+export default [{
     'code': '11',
     'name': '北京市',
     'children': [{
