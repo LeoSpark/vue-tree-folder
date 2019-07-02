@@ -10,7 +10,7 @@ module.exports = {
           filename: 'v3.html',
           // 当使用 title 选项时，
           // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
-          title: 'Vue tree folder v3',
+          title: '[v3]Vue tree folder',
           // 在这个页面中包含的块，默认情况下会包含
           // 提取出来的通用 chunk 和 vendor chunk。
         //   chunks: ['chunk-vendors', 'chunk-common', 'index']
@@ -22,7 +22,7 @@ module.exports = {
         v2: {
             entry:  'src/v2/main.js',
             filename: 'v2.html',
-            title: 'Vue tree folder v2'
+            title: '[v2]Vue tree folder'
         }
       }
 }
