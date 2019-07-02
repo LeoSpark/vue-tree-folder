@@ -8,7 +8,7 @@
                 :key="index"
                 :style="{height: itemHeight + 'px'}"
                 :itemData="itemData"
-                @toggleExpand="getCurrentViewList"
+                @toggleExpand="updateListView"
             ></tree-item>
         </div>
     </div>
