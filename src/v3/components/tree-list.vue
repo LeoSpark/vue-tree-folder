@@ -1,5 +1,9 @@
 <template>
     <div class="tree-list-container">
+        <div class="button-wrap">
+            <button @click="addSelectedChildNode">添加</button>
+            <button @click="removeSelectedNode">删除</button>
+        </div>
         <virtual-view 
             :itemHeight="60"
             :viewList="flatTree"
@@ -143,10 +147,13 @@ export default {
         },
         createEmptyNode(parentPath = '') {
             const EMPTY_NODE = { 
-                name: '',
-                checked: 0, 
-                selected: false, 
-                children: []
+                value: '',
+                checked: 0,
+                isSelect: false,
+                expand: false,
+                index: 0,
+                parentPath,
+                children: [],
             };
 
             // 判断是否为根节点
@@ -160,7 +167,7 @@ export default {
         changeNodeValue(path, value) {
             let [ curNode ] = this.getNodeByPath(path);
 
-            this.$set(curNode, 'name', value); // @todo 修改 key
+            this.$set(curNode, 'value', value); // @todo 修改 key
         },
         removeNode(path) {
             let pathList = path.split('-');

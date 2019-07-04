@@ -1,26 +1,37 @@
 <template>
     <div :style="indentClass">
-        <span 
-            class="folder-arrow"
-            :class="{'floding': !itemData.expand}"
-            v-if="itemData.children.length > 0"
-            @click="toggleExpand"
-        ></span>
-        
-        <span
-            class="checkbox"
-            :class="checkStatus"
-            @click="toggleCheck"
-        ></span>
-        <span
-            class="item-text"
-            @click="toggleSelect"
-            :class="{'item-select': itemData.selected}"
-        >{{ itemData.value }}</span>
+        <empty-item 
+            v-if="isEditing"
+            :value="itemData.value"
+            :nodePath="myNodePath"
+            @closeEditing="isEditing = false"
+        ></empty-item>
+
+        <template v-else>
+            <span 
+                class="folder-arrow"
+                :class="{'floding': !itemData.expand}"
+                v-if="itemData.children.length > 0"
+                @click="toggleExpand"
+            ></span>
+            
+            <span
+                class="checkbox"
+                :class="checkStatus"
+                @click="toggleCheck"
+            ></span>
+            <span
+                class="item-text"
+                @click="toggleSelect"
+                :class="{'item-select': itemData.selected}"
+            >{{ itemData.value }}</span>
+        </template>
     </div>
 </template>
 
 <script>
+import EmptyItem from './empty-item.vue';
+
 export default {
     props: {
         itemData: {
@@ -40,6 +51,11 @@ export default {
             default: 40
         }
     },
+    data() {
+        return {
+            // isEditing: false
+        }
+    },
     computed: {
         // 缩进
         indentClass() {
@@ -55,6 +71,9 @@ export default {
             const statusMap = { 0: 'no', 1: 'partial', 2: 'checked' };
 
             return statusMap[this.itemData.checked];
+        },
+        isEditing() {
+            return this.itemData.value === '';
         },
         myNodePath() {
             if(!this.itemData.parentPath) { // 根节点
@@ -82,6 +101,9 @@ export default {
             this.changeExpand(this.myNodePath, !this.itemData.expand);
             this.$emit('toggleExpand'); // 向父组件触发更新事件
         }
+    },
+    components: {
+        EmptyItem
     }
 }
 </script>

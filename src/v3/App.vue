@@ -41,7 +41,7 @@
 				});
 			}
 
-			this.treeData = format(areasData);
+			this.treeData = format(simpleTreeData);
 		},
 		components: {
 			TreeList
