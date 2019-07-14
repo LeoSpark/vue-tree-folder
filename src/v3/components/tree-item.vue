@@ -9,9 +9,9 @@
 
         <template v-else>
             <span 
+                v-show="itemData.children.length > 0"
                 class="folder-arrow"
                 :class="{'floding': !itemData.expand}"
-                v-if="itemData.children.length > 0"
                 @click="toggleExpand"
             ></span>
             
@@ -39,7 +39,7 @@ export default {
             default: () => ({
                 value: '',
                 checked: 0,
-                isSelect: false,
+                selected: false,
                 index: 0,
                 parentPath: '',
                 children: [],

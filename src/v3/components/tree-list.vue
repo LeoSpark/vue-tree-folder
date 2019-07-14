@@ -149,7 +149,7 @@ export default {
             const EMPTY_NODE = { 
                 value: '',
                 checked: 0,
-                isSelect: false,
+                selected: false,
                 expand: false,
                 index: 0,
                 parentPath,
@@ -160,6 +160,7 @@ export default {
             if (parentPath) {
                 let [ curNode ] = this.getNodeByPath(parentPath);
                 curNode.children.push(EMPTY_NODE);
+                this.$set(curNode, 'expand', true);
             } else {
                 this.treeList.push(EMPTY_NODE);
             }
@@ -167,7 +168,7 @@ export default {
         changeNodeValue(path, value) {
             let [ curNode ] = this.getNodeByPath(path);
 
-            this.$set(curNode, 'value', value); // @todo 修改 key
+            this.$set(curNode, 'value', value);
         },
         removeNode(path) {
             let pathList = path.split('-');
