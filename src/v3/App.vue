@@ -20,6 +20,7 @@
 			}
 		},
 		created() {
+			// 格式化数据
 			const format = (list, parentPath = '') => {
 				return list.map((item, index) => {
 					item.checked = 0;
@@ -41,7 +42,7 @@
 				});
 			}
 
-			this.treeData = format(simpleTreeData);
+			this.treeData = format(areaData);
 		},
 		components: {
 			TreeList

@@ -21,6 +21,7 @@
                 @click="toggleCheck"
             ></span>
             <span
+                title="双击编辑内容"
                 class="item-text"
                 @click="toggleSelect"
                 :class="{'item-select': itemData.selected}"
